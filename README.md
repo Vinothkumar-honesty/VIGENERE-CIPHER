@@ -31,6 +31,79 @@ STEP-8: Repeat the above steps to generate the entire cipher text.
 
 ## PROGRAM
 
+```
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+#define MAX 200
+
+/* Function to generate repeating key */
+void generateKey(char str[], char key[], char newKey[])
+{
+    int i, j = 0;
+    int len = strlen(str);
+    int keyLen = strlen(key);
+
+    for (i = 0; i < len; i++)
+    {
+        newKey[i] = key[j];
+        j = (j + 1) % keyLen;
+    }
+    newKey[len] = '\0';
+}
+
+/* Function to encrypt plaintext */
+void cipherText(char str[], char key[], char cipher[])
+{
+    int i;
+    for (i = 0; str[i] != '\0'; i++)
+        cipher[i] = ((str[i] - 'A') + (key[i] - 'A')) % 26 + 'A';
+
+    cipher[i] = '\0';
+}
+
+/* Function to decrypt ciphertext */
+void originalText(char cipher[], char key[], char original[])
+{
+    int i;
+    for (i = 0; cipher[i] != '\0'; i++)
+        original[i] = ((cipher[i] - key[i] + 26) % 26) + 'A';
+
+    original[i] = '\0';
+}
+
+int main()
+{
+    char str[MAX] = "GEEKSFORGEEKS";
+    char keyword[MAX] = "AYUSH";
+    char key[MAX], cipher[MAX], original[MAX];
+
+    /* Convert plaintext to uppercase */
+    for (int i = 0; str[i]; i++)
+        str[i] = toupper(str[i]);
+
+    /* Convert keyword to uppercase */
+    for (int i = 0; keyword[i]; i++)
+        keyword[i] = toupper(keyword[i]);
+
+    generateKey(str, keyword, key);
+
+    cipherText(str, key, cipher);
+    printf("Ciphertext : %s\n", cipher);
+
+    originalText(cipher, key, original);
+    printf("Original/Decrypted Text : %s\n", original);
+
+    return 0;
+}
+
+```
+
 ## OUTPUT
+<img width="892" height="535" alt="image" src="https://github.com/user-attachments/assets/d4223492-92f1-4b8e-a5a7-4d11f431d5de" />
+
 
 ## RESULT
+
+Thus the program to implement the Vigenere Cipher substitution technique using C program is done successfully.
